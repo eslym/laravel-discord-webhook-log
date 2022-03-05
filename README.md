@@ -4,26 +4,35 @@
 # config/logging.php
 
 return [
-    ...
-    
-    'discord' => [
-        'driver' => 'monolog',
-        'handler' => \Eslym\Laravel\Log\DiscordWebhook\DiscordWebhookHandler::class,
-        'with' => [
-            'webhook' => env('DISCORD_LOG_WEBHOOK'),
-            'message' => env('DISCORD_LOG_MESSAGE'),
+// ...
+
+    'channels' => [
+
+// ...
+
+        'discord' => [
+            'driver' => 'monolog',
+            'handler' => \Eslym\Laravel\Log\DiscordWebhook\DiscordWebhookHandler::class,
+            'with' => [
+                'webhook' => env('DISCORD_LOG_WEBHOOK'),
+                'message' => env('DISCORD_LOG_MESSAGE'),
+            ],
+            'formatter' => \Monolog\Formatter\LineFormatter::class,
+            'formatter_with' => [
+                'format' => '%message% %context% %extra%',
+                'allowInlineLineBreaks' => true,
+                'ignoreEmptyContextAndExtra' => true,
+            ],
         ],
-        'formatter' => \Eslym\Laravel\Log\DiscordWebhook\LineFormatter::class,
-        'formatter_with' => [
-            'format' => '%message% %context% %extra%',
-            'allowInlineLineBreaks' => true,
-            'ignoreEmptyContextAndExtra' => true,
-        ],
+
+// ...
+
     ],
-    
-    ...
+
+// ...
 ]
 ```
+
 ```dotenv
 # .env
 DISCORD_LOG_WEBHOOK="webhook url"
